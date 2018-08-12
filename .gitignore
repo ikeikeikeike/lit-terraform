@@ -7,3 +7,13 @@
 
 # .tfvars files
 *.tfvars
+
+terraform.tfvars
+terraform.tfstate
+terraform.tfstate.backup
+terraform.tfstate.d
+.terraform
+/credentials/outputs.tf
+/tmp
+
+README.md
