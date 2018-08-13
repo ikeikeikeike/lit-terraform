@@ -47,3 +47,22 @@
 module "gcs" {
   source = "../../modules/gcp/gcs"
 }
+
+module "lit-db" {
+  source           = "github.com/GoogleCloudPlatform/terraform-google-sql-db"
+  tier             = "idb-f1-micro"
+  name             = "lit"
+  db_name          = "lit"
+  region           = "${lookup(var.region, "${terraform.env}")}"
+  user_name        = "${data.vault_generic_secret.lit-db.data["username"]}"
+  user_password    = "${data.vault_generic_secret.lit-db.data["password"]}"
+  db_collation     = "ja_JP.UTF8"
+  database_version = "POSTGRES_9_6"
+
+  # ip_configuration = [{
+    # authorized_networks = [{
+      # name  = "default"
+      # value = "${data.google_compute_subnetwork.default-us-central1.ip_cidr_range}"
+    # }]
+  # }]
+}
