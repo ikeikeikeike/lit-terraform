@@ -1,11 +1,11 @@
-module "vault" {
-  source               = "github.com/GoogleCloudPlatform/terraform-google-vault"
-  zone                 = "${var.zone}"
-  machine_type         = "n1-standard-1"
-  storage_bucket       = "${var.storage_bucket}"
-  kms_keyring_name     = "${var.kms_keyring_name}"
-  force_destroy_bucket = false
-}
+# module "vault" {
+  # source               = "github.com/GoogleCloudPlatform/terraform-google-vault"
+  # zone                 = "${var.zone}"
+  # machine_type         = "n1-standard-1"
+  # storage_bucket       = "${var.storage_bucket}"
+  # kms_keyring_name     = "${var.kms_keyring_name}"
+  # force_destroy_bucket = false
+# }
 
 # module "k8s" {
   # source           = "../../"
@@ -37,10 +37,13 @@ module "vault" {
   # }
 # }
 
-module "gke" {
-  source = "../../modules/gcp/gke"
+# module "gke" {
+  # source = "../../modules/gcp/gke"
 
-  initial_node_count  = "${var.initial_node_count}"
+  # initial_node_count  = "${var.initial_node_count}"
+# }
+
+
+module "gcs" {
+  source = "../../modules/gcp/gcs"
 }
-
-
