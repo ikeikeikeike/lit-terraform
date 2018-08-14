@@ -6,8 +6,19 @@ variable "region" {
   }
 }
 
-variable "initial_node_count" {
+variable "min_node_count" {
   type = "map"
+
+  default = {
+    default.lit       = 0
+    development.lit   = 0
+    production.lit    = 1
+  }
+}
+
+variable "max_node_count" {
+  type = "map"
+
   default = {
     default.lit       = 0
     development.lit   = 0

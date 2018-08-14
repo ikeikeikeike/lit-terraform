@@ -1,1 +1,2 @@
-variable "initial_node_count" { type = "map" }
+variable "min_node_count" {}
+variable "max_node_count" {}

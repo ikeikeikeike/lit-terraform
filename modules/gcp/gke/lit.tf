@@ -1,7 +1,57 @@
 resource "google_container_cluster" "lit" {
+  min_master_version = "1.10.5-gke.4"
   name               = "lit"
   zone               = "asia-northeast1-c"
-  initial_node_count = "${lookup(var.initial_node_count, "${terraform.env}.lit")}"
+
+  addons_config {
+    # http_load_balancing {
+      # disabled = false
+    # }
+    # horizontal_pod_autoscaling {
+      # disabled = true
+    # }
+    kubernetes_dashboard {
+      disabled = true
+    }
+  }
+
+  maintenance_policy {
+    daily_maintenance_window {
+      start_time = "02:00"
+    }
+  }
+
+  node_pool {
+    autoscaling {
+      min_node_count = "${var.min_node_count}"
+      max_node_count = "${var.max_node_count}"
+    }
+
+    node_config {
+      machine_type = "n1-standard-1"
+      disk_size_gb = "22"
+
+      oauth_scopes = [
+        "https://www.googleapis.com/auth/logging.write",
+        "https://www.googleapis.com/auth/bigquery",
+        "https://www.googleapis.com/auth/compute",
+        "https://www.googleapis.com/auth/monitoring",
+        "https://www.googleapis.com/auth/devstorage.full_control",
+      ]
+
+      labels = {
+        name   = "${format("lit-%02d", count.index + 1)}"
+        deploy = "lit"
+        env    = "${terraform.env}"
+      }
+
+      tags = [
+        "${terraform.env}",
+        "${format("lit-%02d", count.index + 1)}",
+        "lit",
+      ]
+    }
+  }
 
   # additional_zones = [
     # "asia-northeast1-a",
@@ -13,33 +63,20 @@ resource "google_container_cluster" "lit" {
     # password = ""
   # }
 
-  node_config {
-    machine_type = "n1-standard-1"
-    disk_size_gb = "30"
+  # ip_allocation_policy {
+    # cluster_secondary_range_name = ""
+    # services_secondary_range_name = ""
+  # }
 
-    # autoscaling {
-      # min_node_count = 1
-      # max_node_count = 3
-    # }
+  # master_authorized_networks_config {
+    # cidr_blocks = [
+      # { cidr_block = "", display_name = "office" },
+      # { cidr_block = "", display_name = "shd-gcp-jump-001" },
+    # ]
+  # }
 
-    oauth_scopes = [
-      "https://www.googleapis.com/auth/compute",
-      "https://www.googleapis.com/auth/devstorage.read_only",
-      "https://www.googleapis.com/auth/logging.write",
-      "https://www.googleapis.com/auth/monitoring",
-      "https://www.googleapis.com/auth/bigquery",
-    ]
-
-    labels = {
-      Name        = "${format("lit-%02d", count.index + 1)}"
-      Deploy      = "lit"
-      Environment = "${terraform.env}"
-    }
-
-    tags = [
-      "${terraform.env}",
-      "${format("lit-%02d", count.index + 1)}",
-      "lit",
-    ]
-  }
+  # lifecycle {
+    # ignore_changes = [ "node_count" ]
+  # }
 }
+
