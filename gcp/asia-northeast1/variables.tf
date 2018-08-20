@@ -22,6 +22,6 @@ variable "max_node_count" {
   default = {
     default.lit       = 0
     development.lit   = 0
-    production.lit    = 1
+    production.lit    = 3
   }
 }
