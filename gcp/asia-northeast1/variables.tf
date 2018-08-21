@@ -1,3 +1,11 @@
+variable "zone" {
+  default = {
+    default           = "asia-southeast1-c"
+    development       = "asia-east1-c"
+    production        = "asia-northeast1-c"
+  }
+}
+
 variable "region" {
   default = {
     default           = "asia-southeast1"

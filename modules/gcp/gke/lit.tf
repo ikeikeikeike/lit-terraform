@@ -1,8 +1,10 @@
 resource "google_container_cluster" "lit" {
   name               = "lit"
-  zone               = "asia-northeast1-c"
   min_master_version = "1.10.5-gke.4"
+  zone               = "${var.zone}"
   initial_node_count = "${var.min_node_count}"
+  network            = "${var.vpc_network_lit_self_link}"
+  subnetwork         = "${var.vpc_subnetwork_lit_asia_northeast1_self_link}"
 
   maintenance_policy {
     daily_maintenance_window {
@@ -45,7 +47,7 @@ resource "google_container_cluster" "lit" {
 
 resource "google_container_node_pool" "lit-np" {
   name               = "lit-np"
-  zone               = "asia-northeast1-c"
+  zone               = "${var.zone}"
   cluster            = "${google_container_cluster.lit.name}"
   initial_node_count = "${var.min_node_count}"
 
