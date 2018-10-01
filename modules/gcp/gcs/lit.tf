@@ -4,7 +4,7 @@ resource "google_storage_bucket" "lit-storage" {
   storage_class = "REGIONAL"
 
   labels = {
-    name   = "lit"
+    name   = "lit-storage"
     deploy = "lit-storage"
     env    = "${terraform.env}"
   }

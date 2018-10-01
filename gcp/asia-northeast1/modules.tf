@@ -18,6 +18,12 @@ module "gke" {
   max_node_count                               = "${lookup(var.max_node_count, "${terraform.env}.lit")}"
 }
 
+module "dns" {
+  source = "../../modules/gcp/dns"
+
+  vpc_global_address_lit_lb_address            = "${module.vpc.global_address_lit_lb_address}"
+}
+
 # module "sql" {
   # source = "../../modules/gcp/sql"
 
