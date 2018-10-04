@@ -16,4 +16,7 @@ terraform.tfstate.d
 /credentials/outputs.tf
 /tmp
 
+/gcp/asia-northeast1/lit.key
+/gcp/asia-northeast1/lit.cert
+
 README.md
