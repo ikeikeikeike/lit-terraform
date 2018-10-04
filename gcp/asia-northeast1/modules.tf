@@ -21,6 +21,7 @@ module "gke" {
 module "dns" {
   source = "../../modules/gcp/dns"
 
+  google_project                               = "${var.google_project}"
   vpc_global_address_lit_lb_address            = "${module.vpc.global_address_lit_lb_address}"
 }
 

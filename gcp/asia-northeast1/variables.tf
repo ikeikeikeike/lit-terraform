@@ -1,3 +1,5 @@
+variable "google_project" {}
+
 variable "zone" {
   default = {
     default           = "asia-southeast1-c"
