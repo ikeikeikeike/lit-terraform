@@ -18,6 +18,7 @@ terraform.tfstate.d
 
 /gcp/asia-northeast1/lit.key
 /gcp/asia-northeast1/lit.cert
+/gcp/asia-northeast1/lit.chain
 
 README.md
 
