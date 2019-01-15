@@ -1,0 +1,7 @@
+#!/bin/bash
+
+vault=`which ansible-vault`
+
+echo `$vault view .gcpkey.json.vault | cat -` > /tmp/lit-gcpkey.json
+
+$vault view .env.vault | cat -
