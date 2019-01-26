@@ -1,6 +1,10 @@
+locals {
+  domain   = "loveistokyo.jp"
+}
+
 resource "google_dns_managed_zone" "lit" {
   name     = "loveistokyo-jp"
-  dns_name = "loveistokyo.jp."
+  dns_name = "${local.domain}."
 }
 
 resource "google_dns_record_set" "lit" {
@@ -43,8 +47,18 @@ resource "google_dns_record_set" "lit_dkim" {
   type         = "TXT"
   ttl          = 3600
   rrdatas      = [
-    "\"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp8gN1K7Yooq2CH16Eyay0QVDoAmd8RjD+myvKdDwmyPJQSt29Io2mGPTY28FeuET82Dkhs0a+8Wxmwdx4/Shs10BeYT1wqy0wT/nh3eUouVu51g9lSUjyPF8uUIukFMlpa/JiSty2lhZW3xRD8m89MoWNh5RbtGq0e39eHAKkoUZ+2/Tg\"",
-    "\"TDDRRoQmoB3uwStbLr+BVfkXcOqRrGCPex/M0EL2pYfHYJ0MtJ7kF4Ii9S0UkeEEDRKxWi/firAeMHMYUWlzpDjuyK9n03U6h8DuBHKiczp5o+HMgVjwHoe5ANJjneuu0MT86VdEfh4Bo0ZTFjHKIIMGiABLSxruyHPzQIDAQAB\""
+    "\"v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCHI/gIoecj+VZ8UVA3CPrucUZ0GnB0sCJEb1pvQ0fYr3WfUeaLvn5bM2d9qurTP9iGq5aZIlRhR/C2/srJkcQs+Pse/W8FE88hxNXecNCgLY+VbQnZHzffdx9lkkM5fTREeAtGfDRSZ7m8jaaNg61P7MD+upauCMvO1vpJp53CdQIDAQAB\""
+  ]
+}
+
+resource "google_dns_record_set" "lit_dmarc" {
+  managed_zone = "${google_dns_managed_zone.lit.name}"
+  name         = "_dmarc.${google_dns_managed_zone.lit.dns_name}"
+
+  type         = "TXT"
+  ttl          = 3600
+  rrdatas      = [
+    "\"v=DMARC1; p=reject; rua=mailto:reports@${local.domain}\""
   ]
 }
 
